@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax 4 - AJAX & PHP FORMS</title>
+</head>
+
+<body>
+    <button id="btn">Get Name</button>
+    <hr>
+    <h1>GET FORM</h1>
+    <form method="GET" action="process.php">
+        <input type="text" name="name">
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    <hr>
+    <h1>AJAX GET FORM</h1>
+    <form id="getform">
+        <input type="text" name="name" id="name1">
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    <h3 id="ace"></h3>
+    <hr>
+    <h1>POST FORM</h1>
+    <form method="POST" action="process.php">
+        <input type="text" name="name">
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    <hr>
+    <h1>AJAX POST FORM</h1>
+    <form id="postform">
+        <input type="text" name="name" id="name2">
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    <h3 id="show"></h3>
+
+
+    <script>
+        document.getElementById('btn').addEventListener('click', getName);
+
+        document.getElementById('getform').addEventListener('submit', getName);
+
+
+
+        function getName(e) {
+            e.preventDefault();
+
+            var name = document.getElementById('name1').value;
+            var ace = new XMLHttpRequest();
+            ace.open("GET", 'process.php?name=' + name, true);
+            ace.onload = function() {
+                if (this.status == 200) {
+                    console.log(this.responseText);
+                    document.getElementById('ace').innerHTML = this.responseText;
+                }
+            }
+            ace.send();
+        }
+
+        document.getElementById('postform').addEventListener('submit', postName);
+
+        function postName(e) {
+            e.preventDefault();
+            var name = document.getElementById('name2').value;
+            var param = "name=" + name;
+            var ace = new XMLHttpRequest();
+            ace.open('POST', 'process.php', true);
+            ace.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            ace.onload = function() {
+                if (this.status = 200) {
+                    document.getElementById('show').innerHTML = this.responseText;
+                }
+            }
+            ace.send(param)
+        }
+    </script>
+</body>
+
+</html>

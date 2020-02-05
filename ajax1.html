@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax 1- Textfile</title>
+</head>
+
+<body>
+    <button id="btn">Get Text File</button>
+
+    <div id="text"></div>
+
+
+    <script>
+        //Create an event listener
+
+        document.getElementById("btn").addEventListener("click", loadtext);
+
+        function loadtext() {
+            // Create Xhr request
+            var request = new XMLHttpRequest();
+
+            // Open function (takes in three parameter)
+            //1.type:the type of the request e.g Get
+            //2.The url or file(url/file) you are trying to get
+            //3. asynchronous (true or false)
+            request.open("GET", "sample2.txt", true);
+
+            console.log("ReadyState: ", request.readyState);
+            // Optional used for loaders
+            request.onprogress = function() {
+                    console.log("ReadyState: ", request.readyState);
+                }
+                /*
+                request.onreadystatechange = function() {
+                        console.log("ReadyState: ", request.readyState);
+                        if (this.readyState == 4 && this.status == 200) {
+                            //console.log(this.responseText);
+                        }
+                    }
+                    */
+
+            request.onload = function() {
+                console.log("ReadyState: ", request.readyState);
+                if (this.status == 200) {
+                    //console.log(this.responseText);
+                    document.getElementById('text').innerHTML = this.responseText;
+                } else if (this.status == 404) {
+                    document.getElementById('text').innerHTML = "Not Found";
+                }
+            }
+            request.onerror = function() {
+                console.log("Request Error...");
+            }
+
+            // Sends request
+            request.send();
+
+
+            // Http Request
+            // 200 = "OK"
+            // 403 = "Forbidden"
+            // 404 = "Not found"
+
+            // Readystate Values
+            //0: request not initialized
+            //1: server connection established
+            //2: request received
+            //3: processing request
+            //4: request finished and response is ready
+        }
+    </script>
+</body>
+
+</html>
